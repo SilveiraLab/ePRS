@@ -10,10 +10,10 @@ OUTPUT=$3
 
 # Copy INPUT in OUTPUT dir (the script writting in the INPUT directory)
 mkdir -p $OUTPUT
-DIR_TO_CP_INPUTS=$OUTPUT/input_data
+DIR_TO_CP_INPUTS=$OUTPUT/derivated_input_data
 mkdir           $DIR_TO_CP_INPUTS
-cp $GEN_FILE    $DIR_TO_CP_INPUTS
-cp $SAMPLE_FILE $DIR_TO_CP_INPUTS
+ln -s $PWD/$GEN_FILE    $PWD/$DIR_TO_CP_INPUTS/
+ln -s $PWD/$SAMPLE_FILE $PWD/$DIR_TO_CP_INPUTS/
 
 GEN_FILE_BASENAME=`basename $GEN_FILE`
 echo "GEN_FILE_BASENAME"
@@ -77,6 +77,9 @@ spark-submit --master local[12] $PRSOS $OUTPUT/score_clumped2.gen $OUTPUT/score_
              --thresholds 1 \
              --check_dup
 
+
+rm -rf $DIR_TO_CP_INPUTS/$GEN_FILE 
+rm -rf $DIR_TO_CP_INPUTS/$SAMPLE_FILE
 cd $OUTPUT
 ls | grep clump | xargs rm
 ls | grep temp | xargs rm
