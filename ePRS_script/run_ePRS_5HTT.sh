@@ -3,17 +3,17 @@ set -e
 
 ### MEANEY LAB ###
 
-GEN_FILE=$1
-SAMPLE_FILE=$2
+GEN_FILE=`basename $1`
+SAMPLE_FILE=`basename $2`
 OUTPUT=$3
 
 
 # Copy INPUT in OUTPUT dir (the script writting in the INPUT directory)
-mkdir -p $OUTPUT
+mkdir -p $OUTPUT                                          || exit 2 
 DIR_TO_CP_INPUTS=$OUTPUT/derivated_input_data
-mkdir           $DIR_TO_CP_INPUTS
-ln -s $PWD/$GEN_FILE    $DIR_TO_CP_INPUTS/
-ln -s $PWD/$SAMPLE_FILE $DIR_TO_CP_INPUTS/
+mkdir -p $DIR_TO_CP_INPUTS                                || exit 2 
+ln -f -s $PWD/$GEN_FILE    $DIR_TO_CP_INPUTS/$GEN_FILE    || exit 2
+ln -f -s $PWD/$SAMPLE_FILE $DIR_TO_CP_INPUTS/$SAMPLE_FILE || exit 2
 
 GEN_FILE_BASENAME=`basename $GEN_FILE`
 echo "GEN_FILE_BASENAME"
